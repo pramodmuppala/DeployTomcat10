@@ -9,6 +9,9 @@
     - vars/main.yml
   
   roles:
-    - shutdown
     - create_setenv_script
+    - validate_setenv_script
+    - create_server_xml
+    - validate_server_xml
+    - shutdown
     - startup  

@@ -1,18 +1,4 @@
 ---
-- name: Backup setenv.sh script if it exists
-  become: yes
-  copy:
-    src: "{{ tomcat.catalina_base }}/bin/setenv.sh"
-    dest: "{{ tomcat.catalina_base }}/bin/setenv.sh.bak"
-    remote_src: yes
-
-- name: Deploy setenv.sh script to staging directory
-  become: yes
-  template:
-    src: setenv.sh.j2
-    dest: "{{ staging_dir }}/setenv.sh"
-    mode: '0755'
-
 - name : Validate setenv.sh script
   become: yes
   command: "bash -n {{ staging_dir }}/setenv.sh"

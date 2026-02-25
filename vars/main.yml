@@ -3,7 +3,7 @@ tomcat:
   catalina_base: "/opt/tomcat/app1"
   catalina_home: "/opt/products/tomcat/tomcat10"
   java_home: "/opt/products/jdk/jdk25"
-  health_url: "http://127.0.0.1:10000/health"
+  health_url: "http://127.0.0.1:8080/"
   catalina_opts: "-Xms2g -Xmx2g -XX:+UseG1GC -Djava.security.egd=file:/dev/./urandom"
   file_encoding: "UTF-8"
 
