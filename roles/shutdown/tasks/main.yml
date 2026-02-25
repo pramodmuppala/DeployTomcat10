@@ -1,6 +1,7 @@
 ---
+
 - name: shutdown tomcat instance
-  command: sh "{{ catalina_base }}"/bin/shutdown.sh
+  shell: "{{ catalina_base }}/bin/shutdown.sh"
   args:
     chdir: "{{ catalina_base }}"
   register: shutdown_result
