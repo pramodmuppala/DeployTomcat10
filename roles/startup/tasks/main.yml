@@ -1,35 +1,7 @@
-# ==> Install JDK
-- name: Copy jdk archive to host
-  copy: 
-    src: "{{ jdk_installation_archive }}" 
-    dest: "{{ opt_base }}/{{ jdk_installation_archive }}"
-    owner: oracle 
-    group: bea
-    mode: 0755
-- name: Unpack archive
-  become: yes
-  become_user: oracle
-  unarchive: 
-    src: "{{ opt_base }}/{{ jdk_installation_archive }}"
-    dest: "{{ opt_base }}"
-    remote_src: yes
-- name: Change user and permissions for domains
-  file:
-       path: "{{ opt_base }}"
-       owner: oracle 
-       group: bea
-       mode: 0755
-- name: Change user and permissions for domains
-  file:
-       src: "{{ jdk_folder }}"
-       dest: "{{ opt_base }}/jdk"
-       owner: oracle
-       group: bea
-       state: link
-
-- name: Clean up
-  file: state=absent path={{jdk_installation_archive}}
-
-- name: check java version 
-  command: "{{ jdk_folder }}/bin/java -version"
-
+---
+- name: startup tomcat instance
+  shell: "{{ tomcat.catalina_base }}/bin/startup.sh"
+  args:
+    chdir: "{{ tomcat.catalina_base }}"
+  register: startup_result
+  ignore_errors: true

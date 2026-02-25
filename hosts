@@ -1,2 +1,2 @@
 [Tomcat]
-locahost
+locahost ansible_connection=local

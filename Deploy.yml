@@ -1,8 +1,14 @@
 ---
 - name: shutdown tomcat instance
   hosts: Tomcat
+  connection: local
+  become: yes
+  gather_facts: no
+
   vars_files:
     - vars/main.yml
+  
   roles:
     - shutdown
-    
+    - create_setenv_script
+    - startup  

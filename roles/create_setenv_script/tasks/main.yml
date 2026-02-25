@@ -1,0 +1,35 @@
+---
+- name: Backup setenv.sh script if it exists
+  become: yes
+  copy:
+    src: "{{ tomcat.catalina_base }}/bin/setenv.sh"
+    dest: "{{ tomcat.catalina_base }}/bin/setenv.sh.bak"
+    remote_src: yes
+
+- name: Deploy setenv.sh script
+  become: yes
+  template:
+    src: setenv.sh.j2
+    dest: "{{ staging_dir }}/setenv.sh"
+    mode: '0755'
+
+- name : Validate setenv.sh script
+  become: yes
+  command: "bash -n {{ staging_dir }}/setenv.sh"
+  register: validate_setenv_script  
+  failed_when: validate_setenv_script.rc != 0
+
+- name: policy check for setenv.sh script
+  become: yes
+  shell: >
+    grep -Eq '^export[[:space:]]+CATALINA_OPTS="-(Xms|Xmx|XX:).*"$' 
+    "{{ staging_dir }}/setenv.sh"
+  register: catalina_opts_overwrite_detect
+  changed_when: false
+  failed_when: catalina_opts_overwrite_detect.rc == 0
+
+- name: Show Validation Results
+  debug:
+    msg: 
+      - "Validation of setenv.sh script passed successfully."
+      - "CATALINA_OPTS overwrite check passed successfully."
