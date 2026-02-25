@@ -1,0 +1,8 @@
+---
+- name: shutdown tomcat instance
+  hosts: Tomcat
+  vars_files:
+    - vars/main.yml
+  roles:
+    - shutdown
+    
