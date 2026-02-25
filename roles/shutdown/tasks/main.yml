@@ -1,0 +1,15 @@
+---
+- name: shutdown tomcat instance
+  command: sh "{{ catalina_base }}"/bin/shutdown.sh
+  args:
+    chdir: "{{ catalina_base }}"
+  register: shutdown_result
+  ignore_errors: true
+
+- name: wait for tomcat to shutdown
+  wait_for: 60
+  timeout: 60
+  state: stopped
+  port: "{{ tomcat.server.shutdown_port }}"
+  register: wait_result
+  ignore_errors: true

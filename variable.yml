@@ -1,0 +1,40 @@
+---
+tomcat:
+  catalina_base: "/opt/tomcat/app1"
+  catalina_home: "/opt/products/tomcat/tomcat10"
+  java_home: "/opt/products/jdk/jdk25"
+  health_url: "http://127.0.0.1:10000/health"
+
+  server:
+    shutdown_port: 8005
+    shutdown_command: "SHUTDOWN"
+
+  service:
+    name: "Catalina"
+
+  connectors:
+    - port: 8080
+      protocol: "HTTP/1.1"
+      connectionTimeout: 20000
+      redirectPort: 10003
+
+  engine:
+    name: "Catalina"
+    defaultHost: "localhost"
+
+  hosts:
+    - name: "localhost"
+      appBase: "webapps"
+      unpackWARs: true
+      autoDeploy: false
+
+  jvm:
+    catalina_opts:
+      - "-Xms2g"
+      - "-Xmx2g"
+      - "-XX:+UseG1GC"
+      - "-Djava.security.egd=file:/dev/./urandom"
+
+# Staging and ephemeral paths
+staging_dir: "/opt/temp/config_build/tomcat"
+validates_base: "/opt/temp/tomcat_base_validate"
