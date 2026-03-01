@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="{{ tomcat.file_encoding | default('UTF-8') }}"?>
+
+<Server port="{{ tomcat.server.shutdown_port }}"
+        shutdown="{{ tomcat.server.shutdown_command }}">
+
+  <!-- Listeners -->
+  <Listener className="org.apache.catalina.startup.VersionLoggerListener"/>
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on"/>
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener"/>
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener"/>
+
+  <Service name="{{ tomcat.service.name }}">
+
+    {# -------------------- CONNECTORS -------------------- #}
+    {% for connector in tomcat.connectors %}
+    <Connector
+        port="{{ connector.port }}"
+        protocol="{{ connector.protocol }}"
+        connectionTimeout="{{ connector.connectionTimeout }}"
+        redirectPort="{{ connector.redirectPort }}" />
+    {% endfor %}
+
+    <Engine name="{{ tomcat.engine.name }}"
+            defaultHost="{{ tomcat.engine.defaultHost }}">
+
+      <!-- Realm -->
+      <Realm className="org.apache.catalina.realm.LockOutRealm">
+        <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+               resourceName="UserDatabase"/>
+      </Realm>
+
+      {# -------------------- HOSTS -------------------- #}
+      {% for host in tomcat.hosts %}
+      <Host name="{{ host.name }}"
+            appBase="{{ host.appBase }}"
+            unpackWARs="{{ host.unpackWARs | lower }}"
+            autoDeploy="{{ host.autoDeploy | lower }}">
+      </Host>
+      {% endfor %}
+
+    </Engine>
+  </Service>
+</Server>
