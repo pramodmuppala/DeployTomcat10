@@ -6,4 +6,3 @@
     dest: "{{ tomcat.catalina_base }}/bin/setenv.sh"
     remote_src: yes
     mode: '0755'
-  when: staged_setenv.changed
