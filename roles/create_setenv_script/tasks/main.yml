@@ -1,10 +1,17 @@
 ---
+- name: Check if setenv.sh exists
+  become: yes
+  ansible.builtin.stat:
+    path: "{{ tomcat.catalina_base }}/bin/setenv.sh"
+  register: setenv_stat
+
 - name: Backup setenv.sh script if it exists
   become: yes
-  copy:
+  ansible.builtin.copy:
     src: "{{ tomcat.catalina_base }}/bin/setenv.sh"
     dest: "{{ tomcat.catalina_base }}/bin/setenv.sh.bak"
     remote_src: yes
+  when: setenv_stat.stat.exists
 
 - name: Deploy setenv.sh script to staging directory
   become: yes
