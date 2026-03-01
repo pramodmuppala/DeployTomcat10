@@ -1,35 +1,42 @@
----
-- name: Backup setenv.sh script if it exists
+# Render template to staging
+- name: Render server.xml to staging directory
   become: yes
-  copy:
-    src: "{{ tomcat.catalina_base }}/bin/setenv.sh"
-    dest: "{{ tomcat.catalina_base }}/bin/setenv.sh.bak"
+  ansible.builtin.template:
+    src: server.xml.j2
+    dest: "{{ staging_dir }}/server.xml"
+    mode: '0644'
+  register: staged_serverxml
+
+# Backup existing server.xml (only if it exists)
+- name: Backup current server.xml
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ tomcat.catalina_base }}/conf/server.xml"
+    dest: "{{ tomcat.catalina_base }}/conf/server.xml.bak"
     remote_src: yes
+  ignore_errors: yes
 
-- name: Deploy setenv.sh script to staging directory
+# Deploy staged server.xml into Tomcat conf
+- name: Deploy server.xml to Tomcat conf
   become: yes
-  template:
-    src: setenv.sh.j2
-    dest: "{{ staging_dir }}/setenv.sh"
-    mode: '0755'
+  ansible.builtin.copy:
+    src: "{{ staging_dir }}/server.xml"
+    dest: "{{ tomcat.catalina_base }}/conf/server.xml"
+    remote_src: yes
+    mode: '0644'
+  when: staged_serverxml.changed
 
-- name : Validate setenv.sh script
+# Validate configuration
+- name: Validate Tomcat server.xml
   become: yes
-  command: "bash -n {{ staging_dir }}/setenv.sh"
-  register: validate_setenv_script  
-  failed_when: validate_setenv_script.rc != 0
-
-- name: policy check for setenv.sh script
-  become: yes
-  shell: >
-    grep -Eq '^export[[:space:]]+CATALINA_OPTS="-(Xms|Xmx|XX:).*"$' 
-    "{{ staging_dir }}/setenv.sh"
-  register: catalina_opts_overwrite_detect
+  ansible.builtin.command: >
+    {{ tomcat.catalina_home }}/bin/catalina.sh configtest
+  environment:
+    CATALINA_BASE: "{{ tomcat.catalina_base }}"
+    CATALINA_HOME: "{{ tomcat.catalina_home }}"
+    JAVA_HOME: "{{ tomcat.java_home }}"
+  register: tomcat_configtest
   changed_when: false
-  failed_when: catalina_opts_overwrite_detect.rc == 0
-
-- name: Show Validation Results
-  debug:
-    msg: 
-      - "Validation of setenv.sh script passed successfully."
-      - "CATALINA_OPTS overwrite check passed successfully."
+  failed_when:
+    - tomcat_configtest.rc != 0
+    - "'Server configuration file is valid' not in tomcat_configtest.stdout"
