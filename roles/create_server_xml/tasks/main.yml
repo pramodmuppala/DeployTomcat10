@@ -16,15 +16,26 @@
     remote_src: yes
   ignore_errors: yes
 
-# Deploy staged server.xml into Tomcat conf
-- name: Deploy server.xml to Tomcat conf
+# Validate XML syntax using xmllint
+- name: Validate staged server.xml with xmllint
+  become: yes
+  ansible.builtin.command: >
+    xmllint --noout {{ staging_dir }}/server.xml
+  register: xmllint_result
+  changed_when: false
+  failed_when: xmllint_result.rc != 0
+
+# Deploy only if XML is valid
+- name: Deploy validated server.xml to Tomcat conf
   become: yes
   ansible.builtin.copy:
     src: "{{ staging_dir }}/server.xml"
     dest: "{{ tomcat.catalina_base }}/conf/server.xml"
     remote_src: yes
     mode: '0644'
-  when: staged_serverxml.changed
+  when:
+    - staged_serverxml.changed
+    - xmllint_result.rc == 0
 
 # Validate configuration
 - name: Validate Tomcat server.xml

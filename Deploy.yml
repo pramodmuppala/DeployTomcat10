@@ -13,5 +13,6 @@
     - validate_setenv_script
     - create_server_xml
     - validate_server_xml
+    - copy_config_files
     - shutdown
     - startup  

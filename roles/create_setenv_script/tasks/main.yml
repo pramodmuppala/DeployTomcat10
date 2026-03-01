@@ -33,13 +33,3 @@
     msg: 
       - "Validation of setenv.sh script passed successfully."
       - "CATALINA_OPTS overwrite check passed successfully."
-
-# Deploy staged setenv script into Tomcat bin
-- name: Deploy setenv script to Tomcat bin
-  become: yes
-  ansible.builtin.copy:
-    src: "{{ staging_dir }}/setenv.sh"
-    dest: "{{ tomcat.catalina_base }}/bin/setenv.sh"
-    remote_src: yes
-    mode: '0755'
-  when: staged_setenv.changed
