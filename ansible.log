@@ -1,0 +1,37 @@
+2026-03-01 10:11:15,027 p=8582 u=parallels n=ansible | ansible-playbook [core 2.14.18]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/parallels/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.9/site-packages/ansible
+  ansible collection location = /home/parallels/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.9.25 (main, Jan 14 2026, 00:00:00) [GCC 11.5.0 20240719 (Red Hat 11.5.0-14)] (/usr/bin/python3)
+  jinja version = 3.1.2
+  libyaml = True
+2026-03-01 10:11:15,027 p=8582 u=parallels n=ansible | Using /etc/ansible/ansible.cfg as config file
+2026-03-01 10:11:15,027 p=8582 u=parallels n=ansible | ERROR! the playbook: Deploy.yml could not be found
+2026-03-01 10:11:34,936 p=8639 u=parallels n=ansible | ansible-playbook [core 2.14.18]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/parallels/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.9/site-packages/ansible
+  ansible collection location = /home/parallels/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.9.25 (main, Jan 14 2026, 00:00:00) [GCC 11.5.0 20240719 (Red Hat 11.5.0-14)] (/usr/bin/python3)
+  jinja version = 3.1.2
+  libyaml = True
+2026-03-01 10:11:34,936 p=8639 u=parallels n=ansible | Using /etc/ansible/ansible.cfg as config file
+2026-03-01 10:11:41,792 p=8639 u=parallels n=ansible | host_list declined parsing /home/parallels/Desktop/DeployTomcat10/DeployTomcat10/hosts as it did not pass its verify_file() method
+2026-03-01 10:11:41,792 p=8639 u=parallels n=ansible | script declined parsing /home/parallels/Desktop/DeployTomcat10/DeployTomcat10/hosts as it did not pass its verify_file() method
+2026-03-01 10:11:41,792 p=8639 u=parallels n=ansible | auto declined parsing /home/parallels/Desktop/DeployTomcat10/DeployTomcat10/hosts as it did not pass its verify_file() method
+2026-03-01 10:11:41,795 p=8639 u=parallels n=ansible | Parsed /home/parallels/Desktop/DeployTomcat10/DeployTomcat10/hosts inventory source with ini plugin
+2026-03-01 10:11:41,843 p=8639 u=parallels n=ansible | Read vars_file 'vars/main.yml'
+2026-03-01 10:11:41,845 p=8639 u=parallels n=ansible | Read vars_file 'vars/main.yml'
+2026-03-01 10:11:41,846 p=8639 u=parallels n=ansible | Read vars_file 'vars/main.yml'
+2026-03-01 10:11:41,847 p=8639 u=parallels n=ansible | Read vars_file 'vars/main.yml'
+2026-03-01 10:11:41,848 p=8639 u=parallels n=ansible | Read vars_file 'vars/main.yml'
+2026-03-01 10:11:41,849 p=8639 u=parallels n=ansible | Read vars_file 'vars/main.yml'
+2026-03-01 10:11:41,850 p=8639 u=parallels n=ansible | Read vars_file 'vars/main.yml'
+2026-03-01 10:11:41,888 p=8639 u=parallels n=ansible | redirecting (type: callback) ansible.builtin.yaml to community.general.yaml
+2026-03-01 10:11:41,888 p=8639 u=parallels n=ansible | ERROR! Invalid callback for stdout specified: yaml
+2026-03-01 10:14:18,016 p=9045 u=parallels n=ansible | ERROR! Invalid callback for stdout specified: yaml
+2026-03-01 10:16:17,392 p=9682 u=parallels n=ansible | ERROR! Invalid callback for stdout specified: yaml
+2026-03-01 10:16:55,953 p=9871 u=parallels n=ansible | ERROR! Invalid callback for stdout specified: yaml

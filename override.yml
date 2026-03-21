@@ -1,0 +1,3 @@
+tomcat:
+  instance_count: 1
+  destroy_enabled: true
